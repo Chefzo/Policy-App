@@ -1,0 +1,280 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+#app{display:flex;flex-direction:column;height:540px;background:#1a1210;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}
+#hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#1a1210;border-bottom:1px solid rgba(255,255,255,0.07);flex-shrink:0}
+.ring{width:38px;height:38px;border:2px solid #c0392b;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring span{font-family:'Playfair Display',serif;font-weight:700;font-size:12px;color:#c0392b}
+.htxt h1{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#fdf6ec}
+.htxt p{font-size:10px;color:#8b6f5e;text-transform:uppercase;letter-spacing:1.2px}
+.live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:10px;color:#6ab187}
+.dot{width:6px;height:6px;background:#6ab187;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+#chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;background:linear-gradient(180deg,#1a1210,#1e1410)}
+#chat::-webkit-scrollbar{width:3px}
+#chat::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.msg{display:flex;gap:8px;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg.u{align-self:flex-end;flex-direction:row-reverse}
+.msg.a{align-self:flex-start}
+.av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;margin-top:2px}
+.msg.a .av{background:#c0392b;color:#fff;font-family:'Playfair Display',serif}
+.msg.u .av{background:rgba(255,255,255,0.08);color:#fdf6ec}
+.bub{padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.65;max-width:460px}
+.msg.a .bub{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#fdf6ec;border-top-left-radius:3px}
+.msg.u .bub{background:#c0392b;color:#fff;border-top-right-radius:3px}
+.bub strong{font-weight:600}
+.bub ul{padding-left:16px;margin:4px 0}
+.bub li{margin:2px 0}
+.typ{display:flex;gap:4px;padding:10px 13px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;border-top-left-radius:3px;width:fit-content}
+.typ span{width:5px;height:5px;background:#8b6f5e;border-radius:50%;animation:b 1.1s infinite}
+.typ span:nth-child(2){animation-delay:.18s}
+.typ span:nth-child(3){animation-delay:.36s}
+@keyframes b{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+#welcome{text-align:center;padding:20px 16px}
+#welcome h2{font-family:'Playfair Display',serif;font-size:18px;color:#fdf6ec;margin-bottom:6px}
+#welcome p{font-size:12px;color:#8b6f5e;margin-bottom:16px;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.chip{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#fdf6ec;padding:6px 11px;border-radius:16px;font-size:11.5px;cursor:pointer;transition:all .2s;font-family:inherit}
+.chip:hover{background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.4);color:#e88b80}
+#ia{padding:12px 14px;background:#1a1210;border-top:1px solid rgba(255,255,255,0.07);display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+#inp{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 13px;color:#fdf6ec;font-family:inherit;font-size:13px;resize:none;outline:none;min-height:40px;max-height:100px;line-height:1.5;transition:border-color .2s}
+#inp::placeholder{color:#8b6f5e}
+#inp:focus{border-color:rgba(192,57,43,0.5)}
+#snd{width:40px;height:40px;border-radius:10px;background:#c0392b;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+#snd:hover{background:#922b21}
+#snd:disabled{background:rgba(255,255,255,0.1);cursor:not-allowed}
+#snd svg{width:16px;height:16px;fill:white}
+.err{color:#e88b80;font-style:italic;font-size:12px}
+.key-prompt{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.key-prompt p{font-size:12px;color:#e88b80;margin-bottom:8px}
+.key-row{display:flex;gap:6px}
+#key-inp{flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.15);border-radius:7px;padding:7px 10px;color:#fdf6ec;font-family:inherit;font-size:12px;outline:none}
+#key-btn{background:#c0392b;border:none;border-radius:7px;padding:7px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+</style>
+<div id="app">
+  <div id="hdr">
+    <div class="ring"><span>114</span></div>
+    <div class="htxt">
+      <h1>One Fourteen Policy Assistant</h1>
+      <p>Whiskey Row · Manager Portal</p>
+    </div>
+    <div class="live"><div class="dot"></div> Live</div>
+  </div>
+  <div id="chat">
+    <div id="welcome">
+      <div class="ring" style="margin:0 auto 12px;width:48px;height:48px"><span style="font-size:16px">114</span></div>
+      <h2>Ask Me Anything About Our Policies</h2>
+      <p>Trained on the One Fourteen Policy Handbook.<br>Ask about attendance, discipline, uniforms, safety, and more.</p>
+      <div id="key-box" class="key-prompt">
+        <p>Enter your Anthropic API key to activate (get one free at console.anthropic.com)</p>
+        <div class="key-row">
+          <input id="key-inp" type="password" placeholder="sk-ant-..." />
+          <button id="key-btn" onclick="saveKey()">Activate</button>
+        </div>
+      </div>
+      <div class="chips">
+        <div class="chip" onclick="go(this)">What's the call-off procedure?</div>
+        <div class="chip" onclick="go(this)">When can an employee be terminated immediately?</div>
+        <div class="chip" onclick="go(this)">What are the uniform requirements?</div>
+        <div class="chip" onclick="go(this)">How does the disciplinary process work?</div>
+        <div class="chip" onclick="go(this)">What is the cell phone policy?</div>
+        <div class="chip" onclick="go(this)">What are the off-duty alcohol rules?</div>
+      </div>
+    </div>
+  </div>
+  <div id="ia">
+    <textarea id="inp" placeholder="Ask about a policy..." rows="1"></textarea>
+    <button id="snd" onclick="send()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+<script>
+const HB=`ONE FOURTEEN WHISKEY ROW — POLICY HANDBOOK
+
+EQUAL OPPORTUNITY: No discrimination on race, creed, color, religion, sex, gender, national origin, ethnicity, sexual preference, age, disability, marital status, veteran status. Report violations to Manager.
+
+WORKPLACE VIOLENCE: Any act/expression of violence on premises or during company business strictly prohibited. Report to supervisor immediately. Corrective action up to discharge.
+
+DRUGS & ALCOHOL: No illegal drugs, non-prescribed drugs, or alcohol on premises or during company business. Immediate termination. Prescription drugs impairing performance must be reported to management. Company may search any property. Refusal to consent = termination. No alcohol consumption while in uniform ever. Drug testing under Reasonable Suspicion standard, 5-panel screen. Refusing drug/alcohol test = voluntary termination.
+
+HARASSMENT: Zero tolerance. Verbal (jokes, slurs, insults), physical (hitting, pushing, groping), sexual (unwanted advances, explicit comments), visual (offensive images/clothing), and bullying all prohibited. Report to any store management. Full objective investigation immediately. Retaliation prohibited.
+
+GRIEVANCES: Report to management. If unsatisfied, escalate to employer or another manager. May be required in writing.
+
+SAFETY: Wash hands before food handling, after restroom, before shift, after smoking. FIFO product rotation. Use gloves/utensils for food handling. Non-slip black closed-toe shoes required. Mop spills immediately; place wet floor signs. Keep work areas clean. Lift properly. Associates under 18 cannot clean ovens. Always have someone watching at closing. No deliveries after dark except front door. Trash removed at night in teams of 2. Report all accidents immediately.
+
+GUEST ACCIDENTS: Rush to help and get manager immediately. Call 911 for emergencies. Do not move a fallen guest.
+
+EMPLOYEE ACCIDENTS: Report immediately. Mandatory drug/alcohol test right after treatment. Paid by company. Failed test may deny compensation benefits.
+
+WORKERS COMP: Report all injuries immediately. Pass drug test to receive benefits. Contact employer after each medical appointment with written doctor note. Off work 3+ consecutive days: notify manager immediately; need written physician release to return.
+
+FMLA: 12 weeks unpaid leave for pregnancy, serious health condition, adoption. Military caregiver up to 26 weeks. Eligibility: 12 months employed, 1,250 hours in last 12 months, 50+ employees within 75 miles.
+
+DISCIPLINARY PROCESS: Verbal warning → Written warning → Termination. Termination triggers: written warning in first 90 days; 2 written warnings in any 90-day period; 3 in any 12-month period. IMMEDIATE TERMINATION for: theft including giving free food/drink, not ringing all products, insubordination, abusing guests/vendors/associates, safety violations, dishonesty/disrespect, inappropriate language, falsifying records, no call/no show, excessive absenteeism, unauthorized weapons, damaging property or reputation, horseplay, giving prescription drugs to employees or guests.
+
+NOT PERMITTED: headphones while clocked in, eating without manager permission, smoking during service, gum on duty, alcohol before/during shift, items dangling from pockets.
+
+GUEST COMPLAINTS: IMMEDIATELY notify Manager on Duty for any complaint. Manager determines course of action.
+
+MEETINGS: Attend all pre-shift and staff meetings. Must notify manager if unable to attend. No notice = write-up.
+
+REQUIRED APPS: Download within first week. Failure may result in written warning.
+
+SCHEDULING: Posted every Friday. Submit requests 14+ days before posting. Changes after posting need manager approval. Vacation: 30-day advance notice for 7+ consecutive days (managers).
+
+ATTENDANCE/TARDINESS: Arrive in uniform, ready to work at scheduled time. If unable to work: post shift, notify manager 3+ hours before shift, find coverage. If tardy: call store, speak to manager, check in before clocking in. No-show without notice = resignation. Calling off via text/email UNACCEPTABLE — must call and speak to manager. 30 continuous days no work = automatic termination.
+
+SMOKING/VAPING: Must get manager approval first. No breaks while serving guests. No vaping/smoking inside or on patio. Out of guest view only. Wash hands after. Dispose butts properly.
+
+CELL PHONE: Not permitted during shifts. Hidden from guests. No calls, texts, internet, apps, email. Silence or vibrate. Exception: required work apps. Excessive use = discipline up to termination.
+
+GROOMING: Clean clothes. Good hygiene. Moderate scents. Long hair tied back; fly-aways pinned. Nails max 1/4 inch, trimmed, no chipped polish. Beards max 1 inch, neck shaved. No extreme hair colors. FOH: no facial tattoos. Nose piercing only (1 stud/hoop). No gauges. Earrings not past chin. Necklaces tucked in. No hats.
+
+UNIFORMS: Dark blue plain jeans (no holes/rips), at waistline, belt if loops present, no items dangling. Black closed-toe slip-resistant shoes. Managers: smart casual/polo/button-up, dress slacks or jeans. No hats. Return uniforms upon separation.
+
+OFF-DUTY: Must be out of uniform. Max 2 drinks (no shots) for 21+. No alcohol to go. No discounts on alcohol or merchandise. No consuming alcohol on premises outside normal hours.
+
+MEALS/BREAKS: Designated areas only. Clean up after yourself. Breaks at management discretion per labor laws. Document meal breaks. Complimentary soft drinks; Styrofoam cups need lids.
+
+PAYROLL: Pay periods by location — see manager. Only associate can pick up check without written authorization. Return uniforms before final paycheck; cost deducted otherwise.
+
+TIPS: Subject to income tax. Must be reported. Failure = IRS penalties.
+
+TIME CLOCK: Use assigned ID. Don't clock in more than 5 minutes early without approval. Must personally clock in/out.
+
+PARKING: No associate parking. Not an excuse for tardiness.
+
+PERSONAL VISITORS: Must sit at table/bar and order. Not permitted in service areas. Personal calls require manager approval.
+
+NON-FRATERNIZATION: Family members cannot supervise each other. No romantic relationships between managers and hourly associates — may result in relocation. Notify GM immediately.
+
+CHILDREN IN WORKPLACE: Not permitted during shifts. Exceptions require advance management approval for emergencies only.
+
+GOSSIP: Strictly prohibited. Can result in immediate termination. Notify supervisor if continues.
+
+SOCIAL MEDIA: Respectful only. No profanity. No disparaging company/guests/associates. No photos without permission. No confidential info. Must disclaim views are personal. No company logo.
+
+NON-DISCLOSURE: Cannot disclose trade secrets during or after employment. Return all company documents upon termination.`;
+
+const SYS=`You are the official Policy Assistant for One Fourteen Whiskey Row, a bar and restaurant. You answer questions exclusively for managers based on the policy handbook below.
+
+Rules:
+1. Answer ONLY based on handbook content. Never make up policies.
+2. Always cite the specific policy section (e.g. "Per the Cell Phone Policy..." or "According to the Disciplinary Process section...").
+3. Be concise, direct, and professional — managers need quick clear answers.
+4. If not covered in the handbook say: "That specific situation isn't covered in the handbook — please escalate to your GM or Director of Operations."
+5. Use bullet points only when listing multiple items.
+
+HANDBOOK:
+${HB}`;
+
+let msgs=[];
+let busy=false;
+let apiKey=localStorage.getItem('114_key')||'';
+
+function saveKey(){
+  const k=document.getElementById('key-inp').value.trim();
+  if(!k||!k.startsWith('sk-')){alert('Please enter a valid Anthropic API key (starts with sk-)');return;}
+  apiKey=k;
+  localStorage.setItem('114_key',k);
+  document.getElementById('key-box').style.display='none';
+  addSys('API key saved! You\'re all set. Ask me anything about One Fourteen policies.');
+}
+
+function addSys(txt){
+  const chat=document.getElementById('chat');
+  const m=document.createElement('div');
+  m.className='msg a';
+  const av=document.createElement('div');av.className='av';av.textContent='114';
+  const b=document.createElement('div');b.className='bub';b.innerHTML=`<span style="color:#6ab187">✓</span> ${txt}`;
+  m.appendChild(av);m.appendChild(b);chat.appendChild(m);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+window.onload=()=>{
+  if(apiKey){document.getElementById('key-box').style.display='none';}
+};
+
+async function send(txt){
+  if(!apiKey){
+    document.getElementById('key-box').style.display='block';
+    document.getElementById('key-box').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  const inp=document.getElementById('inp');
+  const text=txt||inp.value.trim();
+  if(!text||busy)return;
+  const w=document.getElementById('welcome');
+  if(w)w.remove();
+  inp.value='';inp.style.height='auto';
+  addMsg('u',text);
+  msgs.push({role:'user',content:text});
+  busy=true;
+  document.getElementById('snd').disabled=true;
+  const tEl=addTyping();
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-request-origin':'true'
+      },
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:SYS,messages:msgs})
+    });
+    const d=await r.json();
+    tEl.remove();
+    if(d.error){
+      addMsg('a',`<span class="err">API Error: ${d.error.message}</span>`);
+    } else {
+      const reply=d.content?.[0]?.text||'No response received.';
+      msgs.push({role:'assistant',content:reply});
+      addMsg('a',reply);
+    }
+  }catch(e){
+    tEl.remove();
+    addMsg('a','<span class="err">Network error. Check your API key and try again.</span>');
+  }
+  busy=false;
+  document.getElementById('snd').disabled=false;
+}
+
+function go(el){send(el.textContent)}
+
+function addMsg(role,text){
+  const chat=document.getElementById('chat');
+  const m=document.createElement('div');m.className=`msg ${role}`;
+  const av=document.createElement('div');av.className='av';av.textContent=role==='a'?'114':'M';
+  const b=document.createElement('div');b.className='bub';b.innerHTML=fmt(text);
+  m.appendChild(av);m.appendChild(b);chat.appendChild(m);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function addTyping(){
+  const chat=document.getElementById('chat');
+  const m=document.createElement('div');m.className='msg a';
+  const av=document.createElement('div');av.className='av';av.textContent='114';
+  const t=document.createElement('div');t.className='typ';
+  t.innerHTML='<span></span><span></span><span></span>';
+  m.appendChild(av);m.appendChild(t);chat.appendChild(m);
+  chat.scrollTop=chat.scrollHeight;
+  return m;
+}
+
+function fmt(t){
+  t=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t=t.replace(/^[-•]\s(.+)/gm,'<li>$1</li>');
+  t=t.replace(/(<li>[\s\S]*?<\/li>(\n|$))+/g,s=>`<ul>${s}</ul>`);
+  t=t.replace(/\n/g,'<br>');
+  return t;
+}
+
+const inp=document.getElementById('inp');
+inp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'});
+inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+</script>
