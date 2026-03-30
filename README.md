@@ -57,10 +57,10 @@ Open http://localhost:3000
 ```
 one-fourteen-policy-app/
 ├── server.js          # Backend — proxies requests to Anthropic API
+├── index.html         # Frontend chat interface
 ├── package.json       # Node dependencies
-├── README.md          # This file
-└── public/
-    └── index.html     # Frontend chat interface
+├── .gitignore         # Excludes node_modules
+└── README.md          # This file
 ```
 
 ---
